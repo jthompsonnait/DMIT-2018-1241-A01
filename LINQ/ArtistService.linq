@@ -18,6 +18,7 @@
 //	or data processing operations.
 void Main()
 {
+	#region Get Artist (GetArtist)
 	//	Header information
 	Console.WriteLine("=================");
 	Console.WriteLine("======  Artist Pass  ========");
@@ -33,6 +34,25 @@ void Main()
 	//  fail
 	//	rule: artistID must be valid
 	TestGetArtist(0).Dump("Fail - ArtistID must be valid");
+	#endregion
+
+	#region Get Artists (GetArtisst)
+	//	Header information
+	Console.WriteLine("=================");
+	Console.WriteLine("======  Artists Pass  ========");
+	Console.WriteLine("=================");
+	//  Pass
+	TestGetArtists("ABB").Dump("Pass - Valid artist name");
+	TestGetArtists("ABC").Dump("Pass - Valid name - No artists found");
+
+	//	Header information
+	Console.WriteLine("=================");
+	Console.WriteLine("======  Artists Fail  ========");
+	Console.WriteLine("=================");
+	//  fail
+	//	rule: Artist name cannot be empty or null
+	TestGetArtists(string.Empty).Dump("Fail - Artist name was empty");
+	#endregion
 }
 
 //	This region contains methods used for testing the functionality
@@ -64,6 +84,31 @@ public ArtistEditView TestGetArtist(int artistID)
 	return null;  // Ensures a valid return value even on failure
 }
 
+public List<ArtistEditView> TestGetArtists(string artistName)
+{
+	try
+	{
+		return GetArtists(artistName);
+	}
+	#region catch all exceptions
+	catch (AggregateException ex)
+	{
+		foreach (var error in ex.InnerExceptions)
+		{
+			error.Message.Dump();
+		}
+	}
+	catch (ArgumentNullException ex)
+	{
+		GetInnerException(ex).Message.Dump();
+	}
+	catch (Exception ex)
+	{
+		GetInnerException(ex).Message.Dump();
+	}
+	#endregion
+	return null;  // Ensures a valid return value even on failure
+}
 #endregion
 
 //	This region contains support methods for testing
@@ -104,6 +149,34 @@ public ArtistEditView GetArtist(int artistID)
 				ArtistID = x.ArtistId,
 				Name = x.Name
 			}).FirstOrDefault();
+}
+
+public List<ArtistEditView> GetArtists(string artistName)
+{
+	#region Business Logic and Parametter Exception
+	//  create a list<Exception> to contain all discovered errors
+	List<Exception> errorList = new List<Exception>();
+
+	//	Business Rules
+	//	These are processing rules that need to be satisfied
+	//		for valid data
+	//		rule: Artist name cannot be empty or null
+
+	if (string.IsNullOrWhiteSpace(artistName))
+	{
+		throw new ArgumentNullException("Artist name is required");
+	}
+	#endregion
+
+	return Artists
+				.Where(x => x.Name.ToUpper().Contains(artistName.ToUpper()))
+				.Select(x => new ArtistEditView
+				{
+					ArtistID = x.ArtistId,
+					Name = x.Name
+				})
+				.OrderBy(x => x.Name)
+				.ToList();
 }
 
 #endregion
