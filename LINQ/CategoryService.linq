@@ -1,6 +1,6 @@
 <Query Kind="Program">
   <Connection>
-    <ID>cf5f4cba-344e-4ae8-b187-a1f69fd7316a</ID>
+    <ID>d4666e70-46ff-463b-a660-3a62895dd16c</ID>
     <NamingServiceVersion>2</NamingServiceVersion>
     <Persist>true</Persist>
     <Driver Assembly="(internal)" PublicKeyToken="no-strong-name">LINQPad.Drivers.EFCore.DynamicDriver</Driver>
@@ -57,7 +57,44 @@ void Main()
 	//	before adding new category record
 	Categories.Skip(Categories.Count() - 5).Dump("Return last 5 records before adding new category");
 
-	
+	//  Fail
+	Console.WriteLine("==================");
+	Console.WriteLine("=====  Add New Category Fail =====");
+	Console.WriteLine("==================");
+
+	//  rule: 	category name is required
+	TestAddEditCategory(categoryView).Dump("Fail - Category name was empty");
+
+	//  Pass
+	Console.WriteLine("==================");
+	Console.WriteLine("=====  Add New Category Pass =====");
+	Console.WriteLine("==================");
+
+	//	update the category name with a valid random name
+	categoryName = GenerateName(6);
+	categoryView.CategoryName = categoryName;
+	TestAddEditCategory(categoryView).Dump($"Pass - Category has valid name: {categoryName}");
+
+	//  get last 5 records from the category table 
+	//	after adding new category record
+	Categories.Skip(Categories.Count() - 5).Dump("Return last 5 records after adding new category");
+
+	//  Fail
+	Console.WriteLine("==================");
+	Console.WriteLine("=====  Add New Category Fail =====");
+	Console.WriteLine("==================");
+
+	//  create a new category view model for adding/editing
+	//	required so that we have a categoryID of 0
+	categoryView = new CategoryView();
+
+	//	update the category name with an category name
+	categoryView.CategoryName = categoryName;
+
+	//  Fail
+	//  rule:	category cannot be duplicated (found more than once)
+	TestAddEditCategory(categoryView).Dump($"Fail - Category {categoryName} already exist");
+
 	#endregion
 
 }
