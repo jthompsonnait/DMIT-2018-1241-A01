@@ -295,7 +295,8 @@ public LookupView AddEditLookup(LookupView lookupView)
 	if (lookupView.LookupID == 0)
 	{
 		bool lookupExist = Lookups
-						.Where(x => x.Name == lookupView.Name)
+						.Where(x => x.CategoryID == lookupView.CategoryID 
+									&& x.Name == lookupView.Name)
 						.Any();
 
 		if (lookupExist)
