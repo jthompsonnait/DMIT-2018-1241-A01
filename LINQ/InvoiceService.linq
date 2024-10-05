@@ -1,4 +1,20 @@
-<Query Kind="Statements" />
+<Query Kind="Program">
+  <Connection>
+    <ID>cf5f4cba-344e-4ae8-b187-a1f69fd7316a</ID>
+    <NamingServiceVersion>2</NamingServiceVersion>
+    <Persist>true</Persist>
+    <Driver Assembly="(internal)" PublicKeyToken="no-strong-name">LINQPad.Drivers.EFCore.DynamicDriver</Driver>
+    <AllowDateOnlyTimeOnly>true</AllowDateOnlyTimeOnly>
+    <Server>.</Server>
+    <Database>OLTP-DMIT2018</Database>
+    <DisplayName>OLTP-DMIT2018-Entity</DisplayName>
+    <DriverData>
+      <EncryptSqlTraffic>True</EncryptSqlTraffic>
+      <PreserveNumeric1>True</PreserveNumeric1>
+      <EFProvider>Microsoft.EntityFrameworkCore.SqlServer</EFProvider>
+    </DriverData>
+  </Connection>
+</Query>
 
 //    Driver is responsible for orchestrating the flow by calling 
 //    various methods and classes that contain the actual business logic 
@@ -23,20 +39,24 @@ void Main()
 	//    rule:    for each invoice line, the price cannot be less than zero
 	//    rule:    parts cannot be duplicated on more than one line.
 	TestAddEditInvoice(invoiceView).Dump("Fail - All rules but missing model and rules involving invoice lines");
+	
 	//  do not set the InvoiceID
 	//    Sam Smith (Customer)
 	invoiceView.CustomerID = 1;
 	// Willie Work (Employee)
 	invoiceView.EmployeeID = 2;
 	TestAddEditInvoice(invoiceView).Dump("Fail - Rules missing invoice lines");
+
 	//  add invoice items
 	InvoiceLineView invoiceLine = new InvoiceLineView();
 	invoiceLine.PartID = 0;
 	invoiceView.InvoiceLines.Add(invoiceLine);
 	TestAddEditInvoice(invoiceView).Dump("Fail - Missing partID and price");
+
 	invoiceLine.PartID = 1;
 	invoiceLine.Price = -1m;
 	TestAddEditInvoice(invoiceView).Dump("Fail - Price is less than zero");
+
 	invoiceLine.PartID = 1;
 	invoiceLine.Price = 10m;
 	invoiceLine.Quantity = 1;
@@ -155,7 +175,7 @@ public InvoiceView GetInvoice(int invoiceID)
 	}
 	return Invoices
 				.Where(x => x.InvoiceID == invoiceID
-&& !x.RemoveFromViewFlag)
+							&& !x.RemoveFromViewFlag)
 				.Select(x => new InvoiceView
 				{
 					InvoiceID = x.InvoiceID,
@@ -167,9 +187,11 @@ public InvoiceView GetInvoice(int invoiceID)
 					SubTotal = x.SubTotal,
 					Tax = x.Tax,
 					RemoveFromViewFlag = x.RemoveFromViewFlag,
-					InvoiceLines = InvoiceLines
-										.Where(il => il.InvoiceID == invoiceID
-&& !il.RemoveFromViewFlag)
+					InvoiceLines = x.InvoiceLines
+										.Where(il => !il.RemoveFromViewFlag)
+									//InvoiceLines
+									//	.Where(il => il.InvoiceID == invoiceID
+									//			&& !il.RemoveFromViewFlag)
 										.Select(il => new InvoiceLineView
 										{
 											InvoiceLineID = il.InvoiceLineID,
