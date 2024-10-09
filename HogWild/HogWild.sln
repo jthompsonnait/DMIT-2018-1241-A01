@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HogWildWebApp", "HogWildWebApp\HogWildWebApp.csproj", "{B02535C5-467C-4C86-8F41-B9A4629A6B00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B02535C5-467C-4C86-8F41-B9A4629A6B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02535C5-467C-4C86-8F41-B9A4629A6B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02535C5-467C-4C86-8F41-B9A4629A6B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02535C5-467C-4C86-8F41-B9A4629A6B00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {391B1164-A2AD-4479-89F1-92CD71D9AF5F}
+	EndGlobalSection
+EndGlobal
