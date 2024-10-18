@@ -176,6 +176,7 @@ namespace HogWildWebApp.Components.Pages.SamplePages
             // Invoke asynchronous method 'StateHasChanged' to trigger a re-render of the component.
             InvokeAsync(StateHasChanged);
         }
+
         #endregion
     }
 }
