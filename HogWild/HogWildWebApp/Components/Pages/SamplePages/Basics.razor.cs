@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using HogWildSystem.BLL;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 
 namespace HogWildWebApp.Components.Pages.SamplePages
 {
@@ -64,8 +66,6 @@ namespace HogWildWebApp.Components.Pages.SamplePages
 
         //  used to display any feedback to the end user.
         private string feedback;
-
-
 
         #region Methods
         // This method is automatically called when the component is initialized.

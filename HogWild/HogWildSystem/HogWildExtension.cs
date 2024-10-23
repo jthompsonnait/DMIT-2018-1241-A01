@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HogWildSystem.BLL;
 
 namespace HogWildSystem
 {
@@ -28,6 +29,20 @@ namespace HogWildSystem
             // connection string.
 
             services.AddDbContext<HogWildContext>(options);
+
+            //  adding any services that you create in the class library (BLL)
+            //  using .AddTransient<t>(...)
+            //  customer
+            services.AddTransient<WorkingVersionsService>((ServiceProvider) =>
+            {
+                //  Retrieve an instance of HogWildContext from the service provider.
+                var context = ServiceProvider.GetService<HogWildContext>();
+
+                //  Create a new instance of WorkingVersionsService,
+                //    passing the HogWoldContext instance aas a parameter
+
+                return new WorkingVersionsService(context);
+            });
         }
     }
 }
