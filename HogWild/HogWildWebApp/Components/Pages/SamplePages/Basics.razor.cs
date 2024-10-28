@@ -1,6 +1,4 @@
-﻿using HogWildSystem.BLL;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace HogWildWebApp.Components.Pages.SamplePages
 {
@@ -40,7 +38,7 @@ namespace HogWildWebApp.Components.Pages.SamplePages
         /// <summary>
         /// Gets or sets a list of SelectionView objects representing various rides.
         /// </summary>
-        private List<SelectionView> rides =new List<SelectionView>();
+        private List<SelectionView> rides;
 
         /// <summary>
         /// Gets or sets the ID of the selected ride from the rides list.
@@ -66,6 +64,8 @@ namespace HogWildWebApp.Components.Pages.SamplePages
 
         //  used to display any feedback to the end user.
         private string feedback;
+
+
 
         #region Methods
         // This method is automatically called when the component is initialized.
@@ -176,7 +176,6 @@ namespace HogWildWebApp.Components.Pages.SamplePages
             // Invoke asynchronous method 'StateHasChanged' to trigger a re-render of the component.
             InvokeAsync(StateHasChanged);
         }
-
         #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using HogWildSystem.BLL;
+﻿#nullable disable
+using HogWildSystem.BLL;
 using HogWildSystem.ViewModels;
 using Microsoft.AspNetCore.Components;
 
@@ -7,15 +8,15 @@ namespace HogWildWebApp.Components.Pages.SamplePages
     public partial class WorkingVersions
     {
         #region Fields
-        //  This private field holds a reference to the WorkingVersionsView instance.
+        //  This private field holds a reference to the WorkingVersionView instance.
         private WorkingVersionsView workingVersionsView = new WorkingVersionsView();
 
-        private string feedback = string.Empty;
+        private string feedback;
         #endregion
         #region Properties
-        //  This attribute marks the property for dependency injection.
+        // This attribute marks the property for dependency injection
         [Inject]
-        //  This property provides access to the WorkingVersionsService service;
+        //  This property provides access to the "WorkingVersionsService" service
         protected WorkingVersionsService WorkingVersionsService { get; set; }
         #endregion
 
@@ -23,12 +24,11 @@ namespace HogWildWebApp.Components.Pages.SamplePages
 
         private void GetWorkingVersions()
         {
-            feedback = string.Empty;
             try
             {
                 workingVersionsView = WorkingVersionsService.GetWorkingVersion();
             }
-            #region catch all exception
+            #region catch all exceptions
             catch (AggregateException ex)
             {
                 foreach (var error in ex.InnerExceptions)
@@ -36,25 +36,27 @@ namespace HogWildWebApp.Components.Pages.SamplePages
                     feedback = error.Message;
                 }
             }
+
             catch (ArgumentNullException ex)
             {
-                feedback = GetInnerException(ex).ToString();
+                feedback = GetInnerException(ex).Message;
             }
 
             catch (Exception ex)
             {
-                feedback = GetInnerException(ex).ToString();
+                feedback = GetInnerException(ex).Message;
             }
             #endregion
+
         }
-
-
-        public Exception GetInnerException(System.Exception ex)
+        private Exception GetInnerException(Exception ex)
         {
             while (ex.InnerException != null)
                 ex = ex.InnerException;
             return ex;
         }
-        #endregion
     }
+
+    #endregion
 }
+

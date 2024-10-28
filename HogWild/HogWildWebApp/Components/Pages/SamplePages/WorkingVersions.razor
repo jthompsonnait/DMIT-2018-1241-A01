@@ -1,5 +1,23 @@
-﻿<!-- Razor component for the page accessible at "/SamplePages/WorkingVersions" -->
-@page "/SamplePages/WorkingVersions"
-
+﻿@page "/SamplePages/WorkingVersions"
 <h3>Working Versions</h3>
+<div>
+    @if (workingVersionsView.VersionID > 0)
+    {
+        <p>Version ID: @workingVersionsView.VersionID</p>
+        <p>Major: @workingVersionsView.Major</p>
+        <p>Minor: @workingVersionsView.Minor</p>
+        <p>Build: @workingVersionsView.Build</p>
+        <p>Revision: @workingVersionsView.Revision</p>
+        <p>Date: @workingVersionsView.AsOfDate</p>
+        <p>Comments: @workingVersionsView.Comments</p>
+    }
 
+    <!-- Button to trigger the "Get Working Version"" method -->
+    <button class="btn-success" @onclick="GetWorkingVersions">
+        Working Versions
+    </button>
+</div>
+
+<div>
+    <h2>@feedback</h2>
+</div>
