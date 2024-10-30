@@ -47,6 +47,7 @@ namespace HogWildWebApp.Components.Pages.SamplePages
         protected PaginationState Pagination = new PaginationState { ItemsPerPage = 10 };
         #endregion
 
+        #region Methods
         //  search for an existing customer
         private void Search()
         {
@@ -120,5 +121,6 @@ namespace HogWildWebApp.Components.Pages.SamplePages
         {
 
         }
+        #endregion
     }
 }
