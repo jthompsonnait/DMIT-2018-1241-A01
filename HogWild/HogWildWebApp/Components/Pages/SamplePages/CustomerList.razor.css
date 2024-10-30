@@ -1,0 +1,26 @@
+﻿/* Subtle stripe effect */
+::deep tr:nth-child(even) {
+    background: rgba(255,255,255,0.4);
+}
+
+/* Don't collapse rows even if they are empty */
+::deep tbody tr {
+    height: 1.8rem;
+}
+
+.page-size-chooser {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.page-size-chooser select {
+    margin: 0 1rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* wwwroot/css/custom.css */
+::deep .quickgrid-row-divider tbody tr {
+    border-width: 1px; /* border */
+    border-color: rgb(0, 0, 0); /* border-black-0 */
+}

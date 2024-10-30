@@ -1,5 +1,78 @@
-﻿<h3>CustomerList</h3>
+﻿@page "/SamplePages/CustomerList"
+<PageTitle>Customer List</PageTitle>
+<h3>Customer List</h3>
+@using Microsoft.AspNetCore.Components.QuickGrid
 
-@code {
+<header>
+    <h4>Search</h4>
+    <p>
+        <label>Last Name:</label>
+        <InputText id="lastName"
+                   Style="Width: 140px; background-color: lightgray"
+                   @bind-Value="lastName" />
+    </p>
+    <p>
+        <label>Phone #:</label>
+        <InputText id="phoneNumber"
+                   Style="Width: 140px; background-color: lightgray"
+                   @bind-Value="phoneNumber" />
+    </p>
+    <button class="btn-success" @onclick="Search">Search</button>
+    <button class="btn-success" @onclick="New">New</button>
+</header>
 
-}
+<body>
+    @if (Customers.Count == 0)
+    {
+        <p><em>Please enter either a last name or phone number</em></p>
+    }
+    else
+    {
+        <div class="page-size-chooser">
+            Items per page:
+            <select @bind="@Pagination.ItemsPerPage">
+                <option>5</option>
+                <option>10</option>
+                <option>20</option>
+                <option>100</option> 
+            </select>
+        </div>
+
+        
+        <!-- This section defines a QuickGrid for displaying customer information-->
+        <QuickGrid Items="@Customers.AsQueryable()" Pagination="@Pagination" class="quickgrid-row-divider">
+            <!-- Add buttons using TemplateColumn -->
+            <TemplateColumn >
+                <button class="btn-primary" @onclick="() => EditCustomer(context.CustomerID)">Edit</button>
+                <button class="btn-primary" @onclick="() => NewInvoice(context.CustomerID)">New Invoice</button>
+            </TemplateColumn>
+            <PropertyColumn Property="@(p => p.FirstName)" Sortable="true"/>
+            <PropertyColumn Property="@(p => p.LastName)" Sortable="true"/>
+            <PropertyColumn Property="@(p => p.City)" Sortable="true"/>
+            <PropertyColumn Property="@(p => p.Phone)" Sortable="true"/>
+            <PropertyColumn Property="@(p => p.Email)" Sortable="true"/>
+            <PropertyColumn Property="@(p => p.TotalSales)" Sortable="true"/>
+        </QuickGrid>
+
+        <Paginator State="@Pagination" />
+    }
+</body>
+
+<footer>
+    @if (hasFeedback)
+    {
+        <blockquote>@feedbackMessage</blockquote>
+    }
+    @if (hasError)
+    {
+        <blockquote>
+            @errorMessage
+            <ul>
+                @foreach (var detail in errorDetails)
+                {
+                    <li>@detail</li>
+                }
+            </ul>
+        </blockquote>
+    }
+</footer>
