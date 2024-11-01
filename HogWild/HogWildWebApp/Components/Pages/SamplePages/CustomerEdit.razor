@@ -1,0 +1,39 @@
+﻿@page "/SamplePages/CustomerEdit/{CustomerID:int}"
+
+<PageTitle>Customer Edit</PageTitle>
+
+<header>
+    <h3>
+        Customer Edit @if (CustomerID == 0)
+        {
+            <H5>New Customer</H5>
+        }
+        else
+        {
+            <h5>@customer.LastName</h5>
+        }
+    </h3>
+</header>
+
+<body>
+    <div class="row">
+        <div class="column">
+            <p>
+                <label for="firstName">First Name:</label>
+                <InputText id="firstName" style="width: 140px; background-color: lightgray"
+                           @bind-Value="customer.FirstName" />
+            </p>
+            <p>
+                <label for="lastName">Last Name:</label>
+                <InputText id="lastName" style="width: 140px; background-color: lightgray"
+                           @bind-Value="customer.LastName" />
+
+            <p>
+            </p>
+            <label for="address1">Address 1:</label>
+            <InputText id="address1" style="width: 140px; background-color: lightgray"
+                       @bind-Value="customer.Address1" />
+            </p>
+        </div>
+    </div>
+</body>
