@@ -31,7 +31,29 @@ namespace HogWildWebApp.Components.Pages.SamplePages
         //  used to store the validation message
         private ValidationMessageStore messageStore;
 
-        
+        /// <summary>
+        /// The show dialog
+        /// </summary>
+        private bool showDialog = false;
+        /// <summary>
+        /// The dialog message
+        /// </summary>
+        private string dialogMessage = string.Empty;
+        /// <summary>
+        /// The dialog completion source
+        /// </summary>
+        private TaskCompletionSource<bool?> dialogCompletionSource;
+
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        private async Task ShowDialog()
+        {
+            dialogMessage = "Do you wish to close the invoice editor?";
+            showDialog = true;
+        }
+
+
         #endregion
 
         #region Feedback & Error Message
@@ -207,9 +229,43 @@ namespace HogWildWebApp.Components.Pages.SamplePages
             }
         }
 
-        private async void Cancel()
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        private async Task Cancel()
         {
-            NavigationManager.NavigateTo($"/SamplePages/CustomerList/");
+            // Initialize the TaskCompletionSource
+            dialogCompletionSource = new TaskCompletionSource<bool?>();
+            dialogMessage = "Do you wish to close the customer editor?";
+            showDialog = true;
+            bool? results = await ShowDialogAsync();
+            if ((bool)results)
+            {
+                NavigationManager.NavigateTo($"/SamplePages/CustomerList");
+            }
+        }
+
+        /// <summary>
+        /// Show dialog as an asynchronous operation.
+        /// </summary>
+        /// <returns>A Task&lt;System.Boolean&gt; representing the asynchronous operation.</returns>
+        private async Task<bool?> ShowDialogAsync()
+        {
+            // Initialize the TaskCompletionSource
+            dialogCompletionSource = new TaskCompletionSource<bool?>();
+
+            // Wait for the dialog to be closed and return the result
+            return await dialogCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// Simples the dialog result.
+        /// </summary>
+        /// <param name="result">if set to <c>true</c> [result].</param>
+        private void SimpleDialogResult(bool? result)
+        {
+            showDialog = false;
+            dialogCompletionSource.SetResult(result);
         }
     }
 }
